@@ -23,12 +23,11 @@ const Home = () => {
          <h2>Explore new job offers.</h2>
        </div>
        <div className="buttons">
-         
          <Link to="/offerSearch">Search Offer by ID</Link>
          <button onClick={fetch} className="button2">
            Get offers
          </button>
-         <button className="button1">Insert new offer</button>
+         <Link to="/create">Add new offer</Link>
        </div>  
       { offers && <OfferList offers={offers} /> }
       

@@ -1,5 +1,10 @@
 import Home from './Home';
+import Logbar from './Logbar';
+import Create from './Create'
+import OfferSearch from './OfferSearch';
+import NotFound from './NotFound';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import OfferDetails from './OfferDetails';
 
 function App() {
 
@@ -16,8 +21,11 @@ function App() {
             <Route path="/create">
               <Create />
             </Route>
+            <Route path="/offerSearch">
+              <OfferSearch/>
+            </Route>
             <Route path="/offers/:id">
-              <BlogDetails />
+              <OfferDetails/>
             </Route>
             <Route path="*">
               <NotFound />

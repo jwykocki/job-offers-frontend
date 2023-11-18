@@ -1,12 +1,14 @@
 import OfferList from "./OfferList";
 import useFetch from "./useFetch";
-
+import { Link } from "react-router-dom";
 
 
 const Home = () => {
 
+  const offerUrl = 'http://localhost:8000/offers';
+
   const { data: offers, loading, error, fetch } = useFetch(
-    'http://localhost:8000/offers'
+    offerUrl
   );
 
   if (loading) return <h1> Loading...</h1>;
@@ -21,7 +23,8 @@ const Home = () => {
          <h2>Explore new job offers.</h2>
        </div>
        <div className="buttons">
-         <button className="button1">Search offer by ID</button>
+         
+         <Link to="/offerSearch">Search Offer by ID</Link>
          <button onClick={fetch} className="button2">
            Get offers
          </button>

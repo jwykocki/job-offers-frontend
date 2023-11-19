@@ -4,12 +4,11 @@ const OfferList = ({offers}) => {
         <div className="offer-list">
             {offers.map((offer) => (
                 <div className="offer-prev" key={offer.id}>
-                    <h4>Position: {offer.position}</h4>
-                    <h4>Company: {offer.companyName}</h4>
-                    <h4>Salary: {offer.salary}</h4>
-                    <h4>URL: {offer.offerUrl}</h4>
-                    <h4>ID: {offer.id}</h4>
-                    <br/>
+                    <p><b>Position:</b> {offer.position}<br />
+                    <b>Company:</b> {offer.companyName}<br />
+                    <b>Salary:</b> {offer.salary}<br />
+                    <b>URL:</b> {offer.offerUrl}<br />
+                    <b>ID:</b> {offer.id}</p>
                     </div>
             ))}
         </div>

@@ -2,11 +2,13 @@ import { useState } from "react";
 import axios from "axios";
 
 function useFetch(url) {
+  
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const fetch = () => {
+   
     setLoading(true);
     axios
       .get(url)
@@ -22,6 +24,7 @@ function useFetch(url) {
   };
 
   const fetchOneOffer = () => {
+   
     setLoading(true);
     axios
       .get(url)

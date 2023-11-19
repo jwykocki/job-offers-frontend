@@ -5,13 +5,14 @@ import { useEffect } from "react";
 
 const OfferDetails = () => {
   const { id } = useParams();
+  const url = "http://localhost:8000/offers/";
 
   const {
     data: offer,
     error,
     isPending,
     fetchOneOffer,
-  } = useFetch("http://localhost:8000/offers/" + id);
+  } = useFetch(url + id);
   const history = useHistory();
   const handleGoBackButton = () => {
     history.go(-1);
@@ -23,7 +24,7 @@ const OfferDetails = () => {
       {isPending && <div>Loading...</div>}
       {error && <div><h4>An error occured</h4><p>{error.message}</p></div>}
       {offer && printOffer(offer)}
-      <div><button onClick={handleGoBackButton}>Go back</button></div>
+      <div className="inner"><button className="goBackButton" onClick={handleGoBackButton}>Go back</button></div>
     </div>
   )
     

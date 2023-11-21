@@ -1,14 +1,22 @@
 import { useState } from "react";
+import { Link } from "react-router-dom/cjs/react-router-dom";
 
 const Logbar = () => {
-    const [logged, setLogged] = useState(false);
+  
+    const [token, ] = useState(sessionStorage.getItem("AccessToken"));
+    const handleLogoutButton = () => {
+        sessionStorage.removeItem("AccessToken");
+        window.location.reload();
+    }
+    
     return(
     <div className="loginregister">
-        {!logged && <div>
-            <button className="loginButton" onClick={()=>{setLogged(true)}}>Login</button>
-            <button className="registerButton">Register</button>
+        {!token && <div>
+            <Link className='loginButton' to={`/login`}>Login</Link>
+            <Link className='registerButton' to={`/register`}>Register</Link>
         </div>}
-        {logged && <p>Logged in</p>}
+        {token && <p>Logged in</p>}
+        {token && <button className="logoutBoutton" onClick={handleLogoutButton}>Logout</button>}
    </div>
     )
 }

@@ -5,19 +5,19 @@ import { useEffect } from "react";
 
 const OfferDetails = () => {
   const { id } = useParams();
-  const url = "http://localhost:8000/offers/";
+  const url = "http://localhost:8080/offers";
 
   const {
     data: offer,
     error,
     isPending,
     fetchOneOffer,
-  } = useFetch(url + id);
+  } = useFetch(url + '/' + id);
   const history = useHistory();
   const handleGoBackButton = () => {
     history.go(-1);
   }
-  useEffect(fetchOneOffer, []);
+  useEffect(fetchOneOffer, [url]);
 
   return (
     <div className="offer-details">

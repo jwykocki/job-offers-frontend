@@ -17,7 +17,7 @@ const Create = () => {
     e.preventDefault();
     const offer = { companyName, position, salary, offerUrl };
 
-    fetch("http://localhost:8000/offers", {
+    fetch("http://localhost:8080/offers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(offer),

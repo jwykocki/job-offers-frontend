@@ -3,14 +3,13 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 const OfferSearch = () => {
+    let accessToken = sessionStorage.getItem("AccessToken");
     const history = useHistory();
     const handleGoBackButton = () => {
         history.go(-1);
       }
     
     const [id, setId] = useState('');
-    const token = localStorage.getItem("accessToken");
-    console.log(token);
 
     return (  
         <div className='search'>
@@ -24,6 +23,7 @@ const OfferSearch = () => {
             <div className="submitButtons">
             <div className="inner"><button   class="goBackButton" onClick={handleGoBackButton}>Go back</button></div>
             <div className="inner"><Link  class="submitIdButton" to={`/offers/${id}`}>Submit</Link></div>
+            {!accessToken && <h3 className="mustLoginMessage">You must login first.</h3>}
             </div>
             
         </div>

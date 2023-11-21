@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
 
-  const offerUrl = 'http://localhost:8000/offers';
+  const offerUrl = 'http://localhost:8080/offers';
 
   const { data: offers, loading, error, fetch } = useFetch(
     offerUrl
@@ -14,6 +14,8 @@ const Home = () => {
   if (loading) return <h1> Loading...</h1>;
 
   if (error) console.log(error);
+
+  let accessToken = sessionStorage.getItem("AccessToken");
 
   return (
     <div className="home">
@@ -29,7 +31,7 @@ const Home = () => {
           <div className="inner" ><Link to="/create" className="sideButton" id="rightButton" >Add new offer</Link></div>
        </div>  
       { offers && <OfferList offers={offers} /> }
-      
+      {!accessToken && <h3 className="mustLoginMessage">You must login first.</h3>}
      </div>
   );
   

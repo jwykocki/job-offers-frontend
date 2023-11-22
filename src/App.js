@@ -23,7 +23,7 @@ function App() {
             <Route path="/create">
               <Create />
             </Route>
-            <Route path="/offerSearch">
+            <Route path="/search">
               <OfferSearch/>
             </Route>
             <Route path="/offers/:id">

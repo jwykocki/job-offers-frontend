@@ -12,11 +12,11 @@ const Logbar = () => {
     return(
     <div className="loginregister">
         {!token && <div>
-            <Link className='loginButton' to={`/login`}>Login</Link>
-            <Link className='registerButton' to={`/register`}>Register</Link>
+            <Link className='topButton' to={`/login`}>Login</Link>
+            <Link className='topButton' to={`/register`}>Register</Link>
         </div>}
-        {token && <p>Logged in</p>}
-        {token && <button className="logoutBoutton" onClick={handleLogoutButton}>Logout</button>}
+        {token && <p className="helloText">Hello, {sessionStorage.getItem("Username")}!</p>}
+        {token && <button className="topButton" onClick={handleLogoutButton}>Logout</button>}
    </div>
     )
 }

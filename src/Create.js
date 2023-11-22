@@ -12,6 +12,7 @@ const Create = () => {
   const handleGoHomeButton = () => {
     history.push("/");
   };
+  const [authToken, ] = useState(sessionStorage.getItem("AccessToken"));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +20,10 @@ const Create = () => {
 
     fetch("http://localhost:8080/offers", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        'Authorization': `Bearer ${authToken}`,
+        "Content-Type": "application/json"
+     },
       body: JSON.stringify(offer),
     }).then((res) => {
       console.log(res);
@@ -70,11 +74,11 @@ const Create = () => {
         <br />
 
         <div className="inner">
-          <button className="submitIdButton">Add offer</button>
+          <button className="blackButton">Add offer</button>
         </div>
       </form>
       <div className="inner">
-        <button className="goHomeButton" onClick={handleGoHomeButton}>
+        <button className="goBackButton" onClick={handleGoHomeButton}>
           Go home
         </button>
       </div>

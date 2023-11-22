@@ -9,7 +9,7 @@ const NotFound = () => {
     return ( <div>
         <h2>Sorry...</h2>
         <h3>This page doesn't exist.</h3>
-        <div className="inner"><button className="goHomeButton"onClick={handleGoBackButton}>Go home</button></div>
+        <div className="inner"><button className="goBackButton"onClick={handleGoBackButton}>Go home</button></div>
  </div> );
 }
  

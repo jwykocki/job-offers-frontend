@@ -1,7 +1,5 @@
 import OfferList from "./OfferList";
 import useFetch from "./useFetch";
-import { Link } from "react-router-dom";
-
 
 const Home = () => {
 
@@ -15,7 +13,16 @@ const Home = () => {
 
   if (error) console.log(error);
 
-  let accessToken = sessionStorage.getItem("AccessToken");
+
+
+  const goLink = (url) => {
+    let accessToken = sessionStorage.getItem("AccessToken");
+    if(!accessToken){
+        window.location.href = `/login`;
+        return;
+    }
+    window.location.href = url;
+  }
 
   return (
     <div className="home">
@@ -24,18 +31,18 @@ const Home = () => {
          <h2>Explore new job offers.</h2>
         </div>
         <div className="buttons">
-          <div className="inner"  ><Link to="/offerSearch" className="sideButton" id="leftButton" >Search offer by ID</Link></div>
+          <div className="inner"  ><button className="sideButton" onClick={() => {goLink('/search')}}>Search offer by ID</button></div>
           <div className="inner"><button onClick={fetch} className="mainButton">
             Get offers
           </button></div>
-          <div className="inner" ><Link to="/create" className="sideButton" id="rightButton" >Add new offer</Link></div>
+          <div className="inner" ><button className="sideButton" onClick={() => {goLink('/create')}}>Add new offer</button></div>
        </div>  
       { offers && <OfferList offers={offers} /> }
-      {!accessToken && <h3 className="mustLoginMessage">You must login first.</h3>}
-     </div>
+
+    </div>
   );
-  
 }
  
 export default Home;
 
+//<Link to="/offerSearch" className="sideButton" id="leftButton" >Search offer by ID</Link>

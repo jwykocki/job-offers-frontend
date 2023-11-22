@@ -10,6 +10,10 @@ const Login = () => {
         history.push('/');
       }
 
+      const goRegister = () => {
+        window.location.href = '/register';
+      }
+
       const handleCreate = (e) => {
         e.preventDefault();
         const user = {username, password};
@@ -18,20 +22,30 @@ const Login = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(user),
-        }).then((res) => {
-          console.log(res);
-          if(res.status===200){
-            const token = 'token';
-            sessionStorage.setItem("AccessToken", token);
-            history.push('/')
-            window.location.reload()
+        })
+        .then(res => {
+          if (res.status !== 200) {
+            throw new Error(res.status);
+          }
+          return res.json();
+        })
+        .then((data) => {
+          sessionStorage.setItem("AccessToken", data.token);
+          sessionStorage.setItem("Username", data.username);
+          history.push('/');
+          window.location.reload()
+        })
+        .catch((error) => {
+          if(error.message=== '404'){
+            setMessage("User does not exist.")
           }
           else{
-            setMessage("problem")
-            console.log(res)
+            setMessage("An error occurred: " + error);
           }
-        
+          
         });
+        
+        
         setUsername("");
         setPassword("");
         
@@ -41,6 +55,7 @@ const Login = () => {
         <div>
             <form className="createUserForm" onSubmit={handleCreate}>
             <h2>Login into your account</h2>
+            <button className="topButton" onClick={goRegister}>Don't have an account?</button><br />
             <label>Username:    </label>
             <input className='registerInput'
             type="text" 
@@ -57,7 +72,7 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
             />
             <br />
-            <div className='inner'><button className="submitRegisterButton" >Login</button></div>
+            <div className='inner'><button className="blackButton" >Login</button></div>
             </form>
             
             <div className='inner'><button className="goBackButton" onClick={handleGoBackButton}>Go home</button></div>

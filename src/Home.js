@@ -1,11 +1,9 @@
 import OfferList from "./OfferList";
 import useFetch from "./useFetch";
-import { Link } from "react-router-dom";
-
 
 const Home = () => {
 
-  const offerUrl = 'http://localhost:8000/offers';
+  const offerUrl = 'http://localhost:8080/offers';
 
   const { data: offers, loading, error, fetch } = useFetch(
     offerUrl
@@ -15,26 +13,36 @@ const Home = () => {
 
   if (error) console.log(error);
 
+
+
+  const goLink = (url) => {
+    let accessToken = sessionStorage.getItem("AccessToken");
+    if(!accessToken){
+        window.location.href = `/login`;
+        return;
+    }
+    window.location.href = url;
+  }
+
   return (
     <div className="home">
-      
        <div className="titles">
          <h1>JOB OFFERS</h1>
          <h2>Explore new job offers.</h2>
-       </div>
-       <div className="buttons">
-         <Link to="/offerSearch">Search Offer by ID</Link>
-         <button onClick={fetch} className="button2">
-           Get offers
-         </button>
-         <Link to="/create">Add new offer</Link>
+        </div>
+        <div className="buttons">
+          <div className="inner"  ><button className="sideButton" onClick={() => {goLink('/search')}}>Search offer by ID</button></div>
+          <div className="inner"><button onClick={fetch} className="mainButton">
+            Get offers
+          </button></div>
+          <div className="inner" ><button className="sideButton" onClick={() => {goLink('/create')}}>Add new offer</button></div>
        </div>  
       { offers && <OfferList offers={offers} /> }
-      
-     </div>
+
+    </div>
   );
-  
 }
  
 export default Home;
 
+//<Link to="/offerSearch" className="sideButton" id="leftButton" >Search offer by ID</Link>

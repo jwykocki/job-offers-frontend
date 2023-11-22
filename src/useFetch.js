@@ -1,17 +1,33 @@
 import { useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function useFetch(url) {
+  
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const history = useHistory();
 
+ 
+  const [authToken, ] = useState(sessionStorage.getItem("AccessToken"));
   const fetch = () => {
+    if(!authToken){
+      history.push('/login')
+    }
     setLoading(true);
-    axios
-      .get(url)
+    const headers = {
+      'Authorization': `Bearer ${authToken}`,
+      'Content-Type': 'application/json',
+    };
+    axios.get(url, {headers: headers }, {
+    timeout: 5000 
+})
       .then((response) => {
-        setData(response.data);
+        console.log(response)
+        console.log(response.status)
+        console.log(response.data)
+        setData(response.data)
       })
       .catch((err) => {
         setError(err);
@@ -22,9 +38,16 @@ function useFetch(url) {
   };
 
   const fetchOneOffer = () => {
+    if(!authToken){
+      history.push('/login')
+    }
     setLoading(true);
-    axios
-      .get(url)
+    const headers = {
+      'Authorization': `Bearer ${authToken}`,
+      'Content-Type': 'application/json',
+    };
+    axios.get(url, {headers: headers }, {
+      timeout: 5000 })
       .then((response) => {
         setData(response.data);
       })

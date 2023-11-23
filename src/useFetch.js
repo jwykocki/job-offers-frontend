@@ -14,6 +14,7 @@ function useFetch(url) {
   const fetch = () => {
     if(!authToken){
       history.push('/login')
+      return;
     }
     setLoading(true);
     const headers = {
@@ -40,6 +41,7 @@ function useFetch(url) {
   const fetchOneOffer = () => {
     if(!authToken){
       history.push('/login')
+      return;
     }
     setLoading(true);
     const headers = {

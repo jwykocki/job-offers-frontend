@@ -17,12 +17,13 @@ const OfferDetails = () => {
   const handleGoBackButton = () => {
     history.go(-1);
   }
-  useEffect(fetchOneOffer, [url]);
+  useEffect(fetchOneOffer, []);
 
   return (
     <div className="offer-details">
       {isPending && <div>Loading...</div>}
       {error && <div><h4>An error occured</h4><p>{error.message}</p></div>}
+      {offer && <h3> Offer found with given ID: </h3>}
       {offer && printOffer(offer)}
       <div className="inner"><button className="goBackButton" onClick={handleGoBackButton}>Go back</button></div>
     </div>

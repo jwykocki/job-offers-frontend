@@ -1,5 +1,6 @@
 import OfferList from "./OfferList";
 import useFetch from "./useFetch";
+// import config from '../config/config.json'
 
 const Home = () => {
 

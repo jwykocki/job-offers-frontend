@@ -1,8 +1,11 @@
-
+import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import config from './config.json'
 
 const Register = () => {
+
+    const registerUrl = config.SERVER_URL + config.SERVER_PORT + config.ENDPOINT_REGISTER;
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState("");
@@ -11,7 +14,7 @@ const Register = () => {
         history.push('/');
       }
       const goLogin = () => {
-        window.location.href = '/register';
+        window.location.href = '/login';
       }
 
 
@@ -19,34 +22,31 @@ const Register = () => {
         e.preventDefault();
         const user = {username, password};
     
-        fetch("http://localhost:8080/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(user),
-        }).then(res => {
-          if (res.status !== 201) {
-            throw new Error(res.status);
-          }
-          return res.json();
-        })
+        const body = JSON.stringify(user);
+        const headers = { "Content-Type": "application/json" };
+        axios.post(registerUrl, body, {headers: headers}  )
         .then((data) => {
-          setMessage("Account has been created successfully.\nUsername: " + data.username)
+          if(data.status===201){
+          setMessage("Account with username " + data.data.username + " has been created successfully." )
+          }else{
+            throw new Error(data.data);
+          }
         })
         .catch((error) => {
-          if(error.message==='409'){
-            setMessage("User already exists.")
-          }
-          else if(error.message==='400'){
-            setMessage("The form contains errors.")
+          console.log(error);
+          if(error.response){
+            console.log("yes");
+            const data = error.response.data
+            setMessage("HTTP " + data.httpStatus + " : " + data.messages)
           }else{
-            setMessage("An error occurred: " + error);
+            setMessage(error.message)
           }
-          
         });
         setUsername("");
         setPassword("");
         
       };
+    
     
     return (  
         <div>
@@ -69,6 +69,7 @@ const Register = () => {
             onChange={(e) => setPassword(e.target.value)}
             />
             <br />
+            <p>Password must be between 6 and 20 characters</p><br />
             <div className='inner'><button className="blackButton" >Register</button></div>
             </form>
             

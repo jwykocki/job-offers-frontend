@@ -1,7 +1,11 @@
+import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import config from './config.json'
 
 const Login = () => {
+
+    const loginUrl = config.SERVER_URL + config.SERVER_PORT + config.ENDPOINT_TOKEN;
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState("");
@@ -17,35 +21,33 @@ const Login = () => {
       const handleCreate = (e) => {
         e.preventDefault();
         const user = {username, password};
-    
-        fetch("http://localhost:8080/token", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(user),
-        })
-        .then(res => {
-          if (res.status !== 200) {
-            throw new Error(res.status);
-          }
-          return res.json();
-        })
+        const body = JSON.stringify(user);
+        const headers = { "Content-Type": "application/json" };
+        axios.post(loginUrl, body, {headers: headers}  )
         .then((data) => {
-          sessionStorage.setItem("AccessToken", data.token);
-          sessionStorage.setItem("Username", data.username);
+          if(data.status===200){
+          console.log(data)
+          console.log(data.data.token)
+          sessionStorage.setItem("AccessToken", data.data.token);
+          sessionStorage.setItem("Username", data.data.username);
           history.push('/');
           window.location.reload()
+          }else{
+            throw new Error(data);
+          }
         })
         .catch((error) => {
-          if(error.message=== '404'){
-            setMessage("User does not exist.")
+          console.log(error);
+          if(error.response){
+            console.log("yes");
+            const data = error.response.data
+            setMessage("HTTP " + data.status + " : " + data.message)
+          }else{
+            setMessage(error.message)
           }
-          else{
-            setMessage("An error occurred: " + error);
-          }
-          
+
         });
-        
-        
+
         setUsername("");
         setPassword("");
         

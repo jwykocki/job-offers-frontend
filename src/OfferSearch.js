@@ -28,7 +28,7 @@ const OfferSearch = () => {
             onChange={(e) => setId(e.target.value)}
             /> <br />
             <div className="submitButtons">
-            <div className="inner"><button   class="goBackButton" onClick={handleGoBackButton}>Go back</button></div>
+            <div className="inner"><button   className="goBackButton" onClick={handleGoBackButton}>Go back</button></div>
             <div className="inner"><button className="blackButton" onClick={() => goLink(`/offers/${id}`)}>Search</button></div>
             {!accessToken && <h3 className="mustLoginMessage">You must login first.</h3>}
             </div>

@@ -1,16 +1,15 @@
 import OfferList from "./OfferList";
 import useFetch from "./useFetch";
-// import config from '../config/config.json'
-
+import config from './config.json';
 const Home = () => {
 
-  const offerUrl = 'http://localhost:8080/offers';
+  const offersUrl = config.SERVER_URL + config.SERVER_PORT + config.ENDPOINT_OFFERS;
 
   const { data: offers, loading, error, fetch } = useFetch(
-    offerUrl
+    offersUrl
   );
 
-  if (loading) return <h1> Loading...</h1>;
+  if (loading) return <h2> Loading...</h2>;
 
   if (error) console.log(error);
 
@@ -39,11 +38,10 @@ const Home = () => {
           <div className="inner" ><button className="sideButton" onClick={() => {goLink('/create')}}>Add new offer</button></div>
        </div>  
       { offers && <OfferList offers={offers} /> }
+      { error && <h3>An error occured <br/> {error}</h3>}
 
     </div>
   );
 }
  
 export default Home;
-
-//<Link to="/offerSearch" className="sideButton" id="leftButton" >Search offer by ID</Link>

@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import config from './config.json'
 
 const Create = () => {
+
+  const offersUrl = config.SERVER_URL + config.SERVER_PORT + config.ENDPOINT_OFFERS;
   const [companyName, setCompanyName] = useState("");
   const [position, setPosition] = useState("");
   const [salary, setSalary] = useState("");
@@ -12,22 +15,27 @@ const Create = () => {
   const handleGoHomeButton = () => {
     history.push("/");
   };
-  const [authToken, ] = useState(sessionStorage.getItem("AccessToken"));
+  const [accessToken, ] = useState(sessionStorage.getItem("AccessToken"));
 
   const handleSubmit = (e) => {
+    if(!accessToken){
+      history.push("/login");
+      return;
+    }
     e.preventDefault();
     const offer = { companyName, position, salary, offerUrl };
 
-    fetch("http://localhost:8080/offers", {
+    fetch(offersUrl, {
       method: "POST",
       headers: { 
-        'Authorization': `Bearer ${authToken}`,
+        'Authorization': `Bearer ${accessToken}`,
         "Content-Type": "application/json"
      },
       body: JSON.stringify(offer),
     }).then((res) => {
       console.log(res);
       setAdded(true);
+      // TODO 
     });
     setCompanyName("");
     setPosition("");
@@ -82,6 +90,7 @@ const Create = () => {
           Go home
         </button>
       </div>
+      {!accessToken && <h3 className="mustLoginMessage">You must login first.</h3>}
       {added && <h2>Offer added!</h2>}
     </div>
   );

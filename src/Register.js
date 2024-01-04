@@ -24,6 +24,7 @@ const Register = () => {
     
         const body = JSON.stringify(user);
         const headers = { "Content-Type": "application/json" };
+        console.log("POST: " + registerUrl)
         axios.post(registerUrl, body, {headers: headers}  )
         .then((data) => {
           if(data.status===201){
@@ -35,7 +36,6 @@ const Register = () => {
         .catch((error) => {
           console.log(error);
           if(error.response){
-            console.log("yes");
             const data = error.response.data
             setMessage("HTTP " + data.httpStatus + " : " + data.messages)
           }else{

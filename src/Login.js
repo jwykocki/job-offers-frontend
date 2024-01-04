@@ -39,9 +39,8 @@ const Login = () => {
         .catch((error) => {
           console.log(error);
           if(error.response){
-            console.log("yes");
-            const data = error.response.data
-            setMessage("HTTP " + data.status + " : " + data.message)
+            // const data = error.response.data
+            setMessage(error.response)
           }else{
             setMessage(error.message)
           }

@@ -5,6 +5,8 @@ const Home = () => {
 
   const offersUrl = config.SERVER_URL + config.SERVER_PORT + config.ENDPOINT_OFFERS;
 
+
+
   const { data: offers, loading, error, fetch } = useFetch(
     offersUrl
   );
@@ -12,8 +14,6 @@ const Home = () => {
   if (loading) return <h2> Loading...</h2>;
 
   if (error) console.log(error);
-
-
 
   const goLink = (url) => {
     let accessToken = sessionStorage.getItem("AccessToken");

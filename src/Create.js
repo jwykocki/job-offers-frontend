@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import config from './config.json'
+import axios from "axios";
+import printOffer from "./printOffer";
 
 const Create = () => {
 
@@ -11,6 +13,8 @@ const Create = () => {
   const [offerUrl, setOfferUrl] = useState("");
   const [added, setAdded] = useState(false);
   const history = useHistory();
+  const [error, setError] = useState(null);
+  const [offer, setOffer] = useState(null);
 
   const handleGoHomeButton = () => {
     history.push("/");
@@ -24,19 +28,34 @@ const Create = () => {
     }
     e.preventDefault();
     const offer = { companyName, position, salary, offerUrl };
-
-    fetch(offersUrl, {
+    setAdded(false)
+    setError(false)
+    axios(offersUrl, {
       method: "POST",
       headers: { 
         'Authorization': `Bearer ${accessToken}`,
         "Content-Type": "application/json"
      },
-      body: JSON.stringify(offer),
+      data: JSON.stringify(offer),
     }).then((res) => {
-      console.log(res);
+      if (res.status !== 201) {
+        throw new Error(res.status);
+      }
       setAdded(true);
-      // TODO 
-    });
+      setOffer(res.data)
+    })
+    .catch((error) => {
+      console.log(error);
+        if(error.response){
+          const data = error.response
+          let message = "HTTP " + data.status;
+          if(data.data.messages) message = message + " : " + data.data.messages
+          setError(message)
+        }else{
+          console.log("err")
+          setError(error.message)
+        }});
+
     setCompanyName("");
     setPosition("");
     setSalary("");
@@ -91,7 +110,9 @@ const Create = () => {
         </button>
       </div>
       {!accessToken && <h3 className="mustLoginMessage">You must login first.</h3>}
-      {added && <h2>Offer added!</h2>}
+      {added && <h2>Offer added! </h2>}
+      {added && printOffer(offer)}
+      {error && <h2>An error occurred: {error}</h2>}
     </div>
   );
 };

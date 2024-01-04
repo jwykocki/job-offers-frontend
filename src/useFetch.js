@@ -8,14 +8,16 @@ function useFetch(url) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const history = useHistory();
- 
   const [accessToken, ] = useState(sessionStorage.getItem("AccessToken"));
+
+
   const fetch = () => {
     if(!accessToken){
       history.push('/login')
       return;
     }
     setLoading(true);
+    console.log("Fetching: " + url)
     const headers = {
       'Authorization': `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
@@ -29,13 +31,15 @@ function useFetch(url) {
         }
         setData(response.data)
       })
-      .catch((err) => {
+      .catch((error) => {
         console.log(error);
           if(error.response){
-            console.log("yes");
-            const data = error.response.data
-            setError("HTTP " + data.status + " : " + data.message)
+            const data = error.response
+            let message = "HTTP " + data.status;
+            if(data.message) message = message + " : " + data.message
+            setError(message)
           }else{
+            console.log("err")
             setError(error.message)
           }
       })
@@ -44,30 +48,7 @@ function useFetch(url) {
       });
   };
 
-  const fetchOneOffer = () => {
-    if(!accessToken){
-      history.push('/login')
-      return;
-    }
-    setLoading(true);
-    const headers = {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    };
-    axios.get(url, {headers: headers }, {
-      timeout: 5000 })
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  return { data, loading, error, fetch, fetchOneOffer };
+  return { data, loading, error, fetch};
 }
 
 export default useFetch;
